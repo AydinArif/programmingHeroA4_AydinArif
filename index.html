@@ -134,9 +134,31 @@
             }
             feed.innerHTML = htmlString;
         }
+
+        // changes the dashboard i.e go from all to interview to rejected
+        function changeFilter(target) {
+            activeView = target;
+            refreshUI();
+        }
+
+        // toggling the status of the job i.e interview to rejected and vice versa
+        function toggleStatus(jobId, newStatus) {
+            const index = listItems.findIndex(i => i.id === jobId);
+            if (index !== -1) {
+                listItems[index].state = (listItems[index].state === newStatus) ? 'all' : newStatus;
+                refreshUI();
+            }
+        }
+
+        //Delete a job from the job list
+        function removeEntry(jobId) {
+            if(confirm('Are you sure you want to delete this?')) {
+                listItems = listItems.filter(i => i.id !== jobId);
+                refreshUI();
+            }
+        }
+
         window.onload = refreshUI;
-
-
         </script>
     </body>
 </html>
