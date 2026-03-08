@@ -27,6 +27,17 @@
                 <div id="stat-rejections" class="text-3xl font-black text-rose-500 mt-1">0</div>
             </div>
         </div>
+
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+            <div class="flex bg-slate-200/50 p-1 rounded-lg" id="tab-container">
+                <button class="filter-btn px-5 py-1.5 rounded-md text-sm font-semibold transition-all bg-white text-slate-800 shadow-sm">All</button>
+                <button class="filter-btn px-5 py-1.5 rounded-md text-sm font-semibold text-slate-600 hover:text-slate-900">Interviews</button>
+                <button class="filter-btn px-5 py-1.5 rounded-md text-sm font-semibold text-slate-600 hover:text-slate-900">Rejected</button>
+            </div>
+            <div class="text-sm font-medium text-slate-400 italic" id="job-qty">Showing 0 jobs</div>
+        </div>
+
+        <div id="main-feed" class="space-y-5"></div>
     </div>
 </body>
 </html>
