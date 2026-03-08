@@ -65,7 +65,7 @@
             document.getElementById('stat-total').textContent = listItems.length;
             document.getElementById('stat-interviews').textContent = listItems.filter(i => i.state === 'interview').length;
             document.getElementById('stat-rejections').textContent = listItems.filter(i => i.state === 'rejected').length;
-            document.getElementById('job-qty').textContent = `${filteredData.length} opportunities found`;
+            document.getElementById('job-qty').textContent = `${filteredData.length} jobs found`;
 
             document.querySelectorAll('.filter-btn').forEach(node => {
                 if(node.getAttribute('data-tab') === activeView) {
@@ -89,8 +89,8 @@
             for (let x = 0; x < filteredData.length; x++) {
                 const job = filteredData[x];
                 
-                let badgeClass = 'bg-blue-50 text-blue-600';
-                let label = 'NEW';
+                let badgeClass = '';
+                let label = '';
                 
                 if (job.state === 'interview') {
                     badgeClass = 'bg-emerald-50 text-emerald-700';
@@ -108,7 +108,7 @@
                         
                         <div class="flex items-center gap-3 mb-1">
                             <h3 class="text-lg font-bold text-slate-800">${job.brand}</h3>
-                            <span class="text-[10px] px-2 py-0.5 rounded-full font-black ${badgeClass}">${label}</span>
+                            ${label ? `<span class="text-[10px] px-2 py-0.5 rounded-full font-black ${badgeClass}">${label}</span>` : ''}
                         </div>
                         
                         <p class="text-indigo-600 font-semibold text-sm mb-3">${job.title}</p>
