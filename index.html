@@ -30,49 +30,113 @@
 
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
             <div class="flex bg-slate-200/50 p-1 rounded-lg" id="tab-container">
-                <button class="filter-btn px-5 py-1.5 rounded-md text-sm font-semibold transition-all bg-white text-slate-800 shadow-sm">All</button>
-                <button class="filter-btn px-5 py-1.5 rounded-md text-sm font-semibold text-slate-600 hover:text-slate-900">Interviews</button>
-                <button class="filter-btn px-5 py-1.5 rounded-md text-sm font-semibold text-slate-600 hover:text-slate-900">Rejected</button>
+                <button onclick="changeFilter('all')" data-tab="all" class="filter-btn px-5 py-1.5 rounded-md text-sm font-semibold transition-all bg-white text-slate-800 shadow-sm">All</button>
+                <button onclick="changeFilter('interview')" data-tab="interview" class="filter-btn px-5 py-1.5 rounded-md text-sm font-semibold text-slate-600 hover:text-slate-900">Interviews</button>
+                <button onclick="changeFilter('rejected')" data-tab="rejected" class="filter-btn px-5 py-1.5 rounded-md text-sm font-semibold text-slate-600 hover:text-slate-900">Rejected</button>
             </div>
             <div class="text-sm font-medium text-slate-400 italic" id="job-qty">Showing 0 jobs</div>
         </div>
 
         <div id="main-feed" class="space-y-5"></div>
     </div>
-
+    
     </div>
         <script>
+            
         let listItems = [
-            { id: 1, brand: "Mobile First Corp", title: "React Native Developer", area: "Remote", commitment: "Full-time", salary: "$130k-$175k", info: "Build cross-platform mobile applications using React Native.", state: 'all' },
-            { id: 2, brand: "WebFlow Agency", title: "Web Designer & Developer", area: "Los Angeles, CA", commitment: "Part-time", salary: "$80k-$120k", info: "Create stunning web experiences for high-profile clients.", state: 'all' },
-            { id: 3, brand: "DataViz Solutions", title: "Data Visualization Specialist", area: "Boston, MA", commitment: "Full-time", salary: "$125k-$165k", info: "Transform complex data into compelling visualizations.", state: 'all' },
-            { id: 4, brand: "CloudFirst Inc", title: "Backend Developer", area: "Seattle, WA", commitment: "Full-time", salary: "$140k-$190k", info: "Design and maintain scalable backend systems using Python.", state: 'all' },
-            { id: 5, brand: "Innovation Labs", title: "UI/UX Engineer", area: "Austin, TX", commitment: "Full-time", salary: "$110k-$150k", info: "Create beautiful and functional user interfaces.", state: 'all' },
-            { id: 6, brand: "MegaCorp Solutions", title: "JavaScript Developer", area: "New York, NY", commitment: "Full-time", salary: "$130k-$170k", info: "Build enterprise applications with modern frameworks.", state: 'all' },
-            { id: 7, brand: "StartupXYZ", title: "Full Stack Engineer", area: "Remote", commitment: "Full-time", salary: "$120k-$160k", info: "Join our fast-growing startup and work on our core platform.", state: 'all' },
-            { id: 8, brand: "TechCorp Industries", title: "Senior Frontend Developer", area: "San Francisco, CA", commitment: "Full-time", salary: "$130k-$175k", info: "Scale web applications using React and TypeScript.", state: 'all' }
+            { id: 101, brand: "Mobile First Corp", title: "React Native Developer", area: "Remote", commitment: "Full-time", salary: "$130k-$175k", info: "Build cross-platform mobile applications using React Native.", state: 'all' },
+            { id: 102, brand: "WebFlow Agency", title: "Web Designer & Developer", area: "Los Angeles, CA", commitment: "Part-time", salary: "$80k-$120k", info: "Create stunning web experiences for high-profile clients.", state: 'all' },
+            { id: 103, brand: "DataViz Solutions", title: "Data Visualization Specialist", area: "Boston, MA", commitment: "Full-time", salary: "$125k-$165k", info: "Transform complex data into compelling visualizations.", state: 'all' },
+            { id: 104, brand: "CloudFirst Inc", title: "Backend Developer", area: "Seattle, WA", commitment: "Full-time", salary: "$140k-$190k", info: "Design and maintain scalable backend systems using Python.", state: 'all' },
+            { id: 105, brand: "Innovation Labs", title: "UI/UX Engineer", area: "Austin, TX", commitment: "Full-time", salary: "$110k-$150k", info: "Create beautiful and functional user interfaces.", state: 'all' },
+            { id: 106, brand: "MegaCorp Solutions", title: "JavaScript Developer", area: "New York, NY", commitment: "Full-time", salary: "$130k-$170k", info: "Build enterprise applications with modern frameworks.", state: 'all' },
+            { id: 107, brand: "StartupXYZ", title: "Full Stack Engineer", area: "Remote", commitment: "Full-time", salary: "$120k-$160k", info: "Join our fast-growing startup and work on our core platform.", state: 'all' },
+            { id: 108, brand: "TechCorp Industries", title: "Senior Frontend Developer", area: "San Francisco, CA", commitment: "Full-time", salary: "$130k-$175k", info: "Scale web applications using React and TypeScript.", state: 'all' }
         ];
 
         let activeView = 'all';
 
         const refreshUI = () => {
-        const feed = document.getElementById('main-feed');
-        let htmlString = '';
-        
-        listItems.forEach(job => {
-            htmlString += `
-                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                    <h3 class="text-lg font-bold text-slate-800">${job.brand}</h3>
-                    <p class="text-indigo-600 font-semibold text-sm">${job.title}</p>
-                </div>`;
-        });
-        
-        feed.innerHTML = htmlString;
-        document.getElementById('stat-total').textContent = listItems.length;
-        };
+            const feed = document.getElementById('main-feed');
+            const filteredData = listItems.filter(item => {
+                return activeView === 'all' ? true : item.state === activeView;
+            });
+
+            document.getElementById('stat-total').textContent = listItems.length;
+            document.getElementById('stat-interviews').textContent = listItems.filter(i => i.state === 'interview').length;
+            document.getElementById('stat-rejections').textContent = listItems.filter(i => i.state === 'rejected').length;
+            document.getElementById('job-qty').textContent = `${filteredData.length} opportunities found`;
+
+            document.querySelectorAll('.filter-btn').forEach(node => {
+                if(node.getAttribute('data-tab') === activeView) {
+                    node.className = "filter-btn px-5 py-1.5 rounded-md text-sm font-semibold bg-white text-slate-800 shadow-sm";
+                } else {
+                    node.className = "filter-btn px-5 py-1.5 rounded-md text-sm font-semibold text-slate-600 hover:text-slate-900";
+                }
+            });
+
+            if (filteredData.length === 0) {
+                feed.innerHTML = `
+                    <div class="bg-white rounded-2xl border-2 border-dashed border-slate-200 py-20 text-center">
+                        <img src="./jobs.png" alt="No jobs" class="w-22 mb-6 object-contain mx-auto">
+                        <p class="text-slate-400 font-medium">No applications found in this category.</p>
+                    </div>`;
+                return;
+            }
+
+            let htmlString = '';
+            
+            for (let x = 0; x < filteredData.length; x++) {
+                const job = filteredData[x];
+                
+                let badgeClass = 'bg-blue-50 text-blue-600';
+                let label = 'NEW';
+                
+                if (job.state === 'interview') {
+                    badgeClass = 'bg-emerald-50 text-emerald-700';
+                    label = 'INTERVIEWING';
+                } else if (job.state === 'rejected') {
+                    badgeClass = 'bg-rose-50 text-rose-600';
+                    label = 'CLOSED';
+                }
+
+                htmlString += `
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm job-card-hover relative">
+                        <button onclick="removeEntry(${job.id})" class="absolute top-4 right-4 text-slate-300 hover:text-rose-500 transition-all">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+                        </button>
+                        
+                        <div class="flex items-center gap-3 mb-1">
+                            <h3 class="text-lg font-bold text-slate-800">${job.brand}</h3>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full font-black ${badgeClass}">${label}</span>
+                        </div>
+                        
+                        <p class="text-indigo-600 font-semibold text-sm mb-3">${job.title}</p>
+                        
+                        <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-400 mb-4">
+                            <span>📍 ${job.area}</span>
+                            <span>💼 ${job.commitment}</span>
+                            <span>💰 ${job.salary}</span>
+                        </div>
+                        
+                        <p class="text-slate-600 text-sm mb-5 leading-relaxed">${job.info}</p>
+                        
+                        <div class="flex gap-2">
+                            <button onclick="toggleStatus(${job.id}, 'interview')" class="px-4 py-2 text-xs font-bold rounded-lg border transition-all ${job.state === 'interview' ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-slate-200 text-slate-600 hover:bg-slate-50'}">
+                                SET INTERVIEW
+                            </button>
+                            <button onclick="toggleStatus(${job.id}, 'rejected')" class="px-4 py-2 text-xs font-bold rounded-lg border transition-all ${job.state === 'rejected' ? 'bg-rose-500 border-rose-500 text-white' : 'border-slate-200 text-slate-600 hover:bg-slate-50'}">
+                                MARK REJECTED
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            feed.innerHTML = htmlString;
+        }
         window.onload = refreshUI;
 
-        
+
         </script>
     </body>
 </html>
